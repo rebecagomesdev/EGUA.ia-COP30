@@ -1,0 +1,799 @@
+/* style.css */
+
+/* --- 1. SETUP GLOBAL (Fontes e Cores) --- */
+
+/* Importa a fonte 'Inter' que você usou no Figma */
+/* Define uma regra '@import' para buscar fontes da web. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/* ':root' é onde definimos nossas "variáveis" de design (sua paleta) */
+/* Define um seletor ':root' (o topo do documento, <html>). */
+:root {
+    /* Define a variável CSS '--cor-fundo' com o valor de cor hexadecimal. */
+    --cor-fundo: #003B63;       /* O "Azul-Rio" (Azul-Escuro) */
+    /* Define a variável CSS '--cor-laranja-alerta' com o valor de cor hexadecimal. */
+    --cor-laranja-alerta: #F57C00;       /* O "Laranja-Urgente" */
+    /* Define a variável CSS '--cor-texto' com o valor de cor hexadecimal. */
+    --cor-texto: #FFFFFF;       /* Texto principal (Branco) */
+    /* Define a variável CSS '--cor-branco-gelo' com o valor de cor hexadecimal. */
+    --cor-branco-gelo: #F4F7F6; /* Branco-Gelo para textos secundários */
+    /* Define a variável CSS '--cor-placeholder' com o valor de cor hexadecimal. */
+    --cor-placeholder: #8D99AE; /* Texto do placeholder (Cinza-Azulado) */
+    /* Define a variável CSS '--cor-verde-sucesso' com o valor de cor hexadecimal. */
+    --cor-verde-sucesso: #00E676; /* Verde para sucesso */
+    /* Define a variável CSS '--cor-borda' com o valor de cor hexadecimal. */
+    --cor-borda: #415A77;       /* Borda do input */
+    /* Define a variável CSS '--cor-azul-rio' com o valor de cor hexadecimal. */
+    --cor-azul-rio: #1A5BAA;       /* Azul para elementos adicionais */
+    /* Define a variável CSS '--cor-verde-amazonia' com o valor de cor hexadecimal. */
+    --cor-verde-amazonia: #609988; /* Verde para elementos adicionais */
+    /* Define a variável CSS '--cor-rosa-acai' com o valor de cor hexadecimal. */
+    --cor-rosa-acai: #C82949;       /* Rosa para elementos adicionais */
+    /* Define a variável CSS '--cor-azul-grafite' com o valor de cor hexadecimal. */
+    --cor-azul-grafite: #1E293B; /* Azul-Grafite para elementos adicionais */
+        /* App bar */
+        /* Define a variável CSS '--app-bar-height' com o valor '64px'. */
+        --app-bar-height: 64px;
+
+    /* Cores da Legenda (chutadas) */
+    /* Define a variável CSS '--cor-risco-baixo' com o valor de cor hexadecimal. */
+    --cor-risco-baixo: #4CAF50;  /* Verde */
+    /* Define a variável CSS '--cor-risco-medio' com o valor de cor hexadecimal. */
+    --cor-risco-medio: #FFEB3B;  /* Amarelo */
+    /* Define a variável CSS '--cor-risco-alto' com o valor de cor hexadecimal. */
+    --cor-risco-alto: #F44336;   /* Vermelho */
+/* Fecha o bloco ':root'. */
+}
+
+/* '*' (Reset Global): Remove todas as margens e bordas padrão */
+/* Define um seletor universal '*' (todos os elementos). */
+* {
+    /* Define a margem externa como 0. */
+    margin: 0;
+    /* Define a margem interna (padding) como 0. */
+    padding: 0;
+    /* Define o cálculo da caixa (box-sizing) como 'border-box'. */
+    box-sizing: border-box; /* Faz o 'padding' não "estourar" o tamanho das caixas */
+/* Fecha o bloco '*'. */
+}
+
+/* 'body' (Estilo principal da página) */
+/* Define um seletor para o elemento <body>. */
+body {
+    /* Define a família de fontes (font-family) principal e de fallback. */
+    font-family: 'Inter', sans-serif; /* Define a fonte padrão */
+    /* Define a cor de fundo (background-color) usando a variável '--cor-branco-gelo'. */
+    background-color: var(--cor-branco-gelo); /* Define a cor de fundo (Azul-Rio) */
+    /* Define a cor do texto (color) usando a variável '--cor-azul-grafite'. */
+    color: var(--cor-azul-grafite); /* Define a cor do texto (Branco) */
+    
+    /* Centraliza tudo na tela */
+    /* Define o modo de exibição (display) como 'flex'. */
+    display: flex;
+    /* Define o alinhamento horizontal (justify-content) como 'center'. */
+    justify-content: center;
+    /* Define o alinhamento vertical (align-items) como 'center'. */
+    align-items: center;
+    /* Define a altura mínima (min-height) como '100vh' (100% da altura da tela). */
+    min-height: 100vh; /* Garante que ocupe a tela inteira */
+        /* Define a margem interna (padding) como '20px' em todos os lados. */
+        padding: 20px; /* Um respiro nas bordas */
+        /* Define a margem interna superior (padding-top) usando um cálculo ('calc'). */
+        padding-top: calc(var(--app-bar-height) + 20px); /* Espaço para a app bar fixa */
+/* Fecha o bloco 'body'. */
+}
+
+
+/* --- 2. ESTILO DA TELA 1 (Formulário) --- */
+
+/* O <header> (sua "app bar") */
+/* Define um seletor para o elemento <header> DENTRO de '#tela-input'. */
+#tela-input header {
+    /* Define a largura (width) como '100%'. */
+    width: 100%; /* Faz o header ocupar a largura toda */
+    /* Define a margem inferior (margin-bottom) como '40px'. */
+    margin-bottom: 40px; /* Dá o espaço para o formulário abaixo */
+    /* Define o modo de exibição (display) como 'flex'. */
+    display: flex;
+    /* Define a direção principal (flex-direction) como 'column' (vertical). */
+    flex-direction: column;
+    /* Define o alinhamento vertical (align-items) como 'center'. */
+    align-items: center; /* Centraliza o logo e o <p> */
+/* Fecha o bloco '#tela-input header'. */
+}
+
+/* App bar fixa no topo */
+/* Define um seletor para a classe '.app-bar'. */
+.app-bar {
+    /* Define o posicionamento (position) como 'fixed'. */
+    position: fixed;
+    /* Define a posição 'top' como 0. */
+    top: 0;
+    /* Define a posição 'left' como 0. */
+    left: 0;
+    /* Define a posição 'right' como 0. */
+    right: 0;
+    /* Define a altura (height) usando a variável '--app-bar-height'. */
+    height: var(--app-bar-height);
+    /* Define o modo de exibição (display) como 'flex'. */
+    display: flex;
+    /* Define o alinhamento vertical (align-items) como 'center'. */
+    align-items: center;
+    /* Define o alinhamento horizontal (justify-content) como 'space-between'. */
+    justify-content: space-between;
+    /* Define a margem interna (padding) horizontal como '20px'. */
+    padding: 0 20px;
+    /* Define a cor de fundo (background-color) usando a variável '--cor-verde-amazonia'. */
+    background-color: var(--cor-verde-amazonia);
+    /* Define a cor do texto (color) usando a variável '--cor-texto'. */
+    color: var(--cor-texto);
+    /* Define a ordem de empilhamento (z-index) como '1000'. */
+    z-index: 1000;
+    /* Define uma sombra (box-shadow) para o elemento. */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+/* Fecha o bloco '.app-bar'. */
+}
+
+/* Define um seletor para a classe '.app-bar-left'. */
+.app-bar-left {
+    /* Define o modo de exibição (display) como 'flex'. */
+    display: flex;
+    /* Define o alinhamento vertical (align-items) como 'center'. */
+    align-items: center;
+    /* Define o espaçamento (gap) entre itens flex como '12px'. */
+    gap: 12px;
+/* Fecha o bloco '.app-bar-left'. */
+}
+
+/* Define um seletor para a classe '.app-bar-center'. */
+.app-bar-center {
+    /* Define o posicionamento (position) como 'absolute'. */
+    position: absolute;
+    /* Define a posição 'left' como '50%'. */
+    left: 50%;
+    /* Define uma transformação (transform) para centralizar horizontalmente. */
+    transform: translateX(-50%);
+    /* Define o modo de exibição (display) como 'flex'. */
+    display: flex;
+    /* Define o alinhamento vertical (align-items) como 'center'. */
+    align-items: center;
+    /* Define o alinhamento horizontal (justify-content) como 'center'. */
+    justify-content: center;
+    /* Define a altura (height) como '100%'. */
+    height: 100%;
+/* Fecha o bloco '.app-bar-center'. */
+}
+
+/* Define um seletor para a classe '.app-title'. */
+.app-title {
+    /* Define o peso da fonte (font-weight) como '700' (bold). */
+    font-weight: 700;
+    /* Define o tamanho da fonte (font-size) como '1.1rem'. */
+    font-size: 1.1rem;
+/* Fecha o bloco '.app-title'. */
+}
+
+/* O seu logo que você adicionou no HTML */
+/* Define o seletor para o ID '#logo-eguaia'. */
+#logo-eguaia {
+    /* Define a largura como '120px'. */
+    width: 120px; /* logo centralizado na app bar */
+    /* Define a altura como 'auto'. */
+    height: auto;
+    /* Define a exibição como 'block'. */
+    display: block;
+/* Fecha o bloco '#logo-eguaia'. */
+}
+
+/* botão de navegação à esquerda */
+/* Define o seletor para elementos <button> dentro de '.app-bar-left'. */
+.app-bar-left button {
+    /* Define o fundo (background) como 'transparent'. */
+    background: transparent;
+    /* Define a borda (border) com '2px', 'solid' e uma cor 'rgba'. */
+    border: 2px solid rgba(255,255,255,0.18);
+    /* Define a cor do texto usando a variável '--cor-texto'. */
+    color: var(--cor-texto);
+    /* Define a margem interna (padding) como '8px' vertical e '10px' horizontal. */
+    padding: 8px 10px;
+    /* Define o raio da borda (border-radius) como '8px'. */
+    border-radius: 8px;
+    /* Define o cursor como 'pointer'. */
+    cursor: pointer;
+    /* Define o tamanho da fonte (font-size) como '1.1rem'. */
+    font-size: 1.1rem;
+/* Fecha o bloco '.app-bar-left button'. */
+}
+
+/* Define o seletor para o estado 'hover' (mouse sobre) do botão. */
+.app-bar-left button:hover {
+    /* Define o fundo (background) como uma cor 'rgba'. */
+    background: rgba(255,255,255,0.06);
+/* Fecha o bloco ':hover'. */
+}
+
+/* reserva um espaço à direita para manter o logo perfeitamente centrado */
+/* Define o seletor para a classe '.app-bar-right'. */
+.app-bar-right {
+    /* Define a largura (width) como '48px'. */
+    width: 48px;
+    /* Define a altura (height) como '100%'. */
+    height: 100%;
+/* Fecha o bloco '.app-bar-right'. */
+}
+
+/* App menu (dropdown anchored to left) */
+/* Define o seletor para a classe '.app-menu'. */
+.app-menu {
+    /* Define o posicionamento (position) como 'fixed'. */
+    position: fixed;
+    /* Define a posição 'top' usando a variável '--app-bar-height'. */
+    top: var(--app-bar-height);
+    /* Define a posição 'left' como '12px'. */
+    left: 12px;
+    /* Define a largura (width) como '220px'. */
+    width: 220px;
+    /* Define a cor de fundo (background) como '#ffffff' (branco). */
+    background: #ffffff;
+    /* Define o raio da borda (border-radius) como '10px'. */
+    border-radius: 10px;
+    /* Define uma sombra (box-shadow) para o elemento. */
+    box-shadow: 0 8px 24px rgba(2,6,23,0.12);
+    /* Define a margem interna (padding) como '8px' vertical e '10px' horizontal. */
+    padding: 8px 10px;
+    /* Define a ordem de empilhamento (z-index) como '1200'. */
+    z-index: 1200;
+    /* Define a exibição (display) como 'none' (escondido). */
+    display: none;
+/* Fecha o bloco '.app-menu'. */
+}
+/* Define o seletor para '.app-menu' QUANDO também tiver a classe '.open'. */
+.app-menu.open { 
+    /* Define a exibição (display) como 'block' (visível). */
+    display: block; 
+/* Fecha o bloco '.app-menu.open'. */
+}
+/* Define o seletor para a classe '.menu-close' dentro de '.app-menu'. */
+.app-menu .menu-close {
+    /* Define o fundo (background) como 'transparent'. */
+    background: transparent;
+    /* Remove a borda (border). */
+    border: none;
+    /* Define o tamanho da fonte (font-size) como '16px'. */
+    font-size: 16px;
+    /* Define a cor do texto usando a variável '--cor-azul-grafite'. */
+    color: var(--cor-azul-grafite);
+    /* Alinha o elemento à direita (float). */
+    float: right;
+    /* Define o cursor como 'pointer'. */
+    cursor: pointer;
+/* Fecha o bloco '.app-menu .menu-close'. */
+}
+/* Define o seletor para <ul> dentro de '.app-menu'. */
+.app-menu ul { 
+    /* Remove o estilo da lista (list-style). */
+    list-style: none; 
+    /* Define a margem (margin). */
+    margin: 8px 0 0 0; 
+    /* Remove a margem interna (padding). */
+    padding: 0; 
+/* Fecha o bloco '.app-menu ul'. */
+}
+/* Define o seletor para <li> dentro de '.app-menu'. */
+.app-menu li { 
+    /* Define a margem (margin) vertical como '6px'. */
+    margin: 6px 0; 
+/* Fecha o bloco '.app-menu li'. */
+}
+/* Define o seletor para <a> (links) dentro de '.app-menu'. */
+.app-menu a { 
+    /* Define a cor do texto usando a variável '--cor-azul-grafite'. */
+    color: var(--cor-azul-grafite); 
+    /* Remove a decoração do texto (text-decoration). */
+    text-decoration: none; 
+    /* Define o peso da fonte (font-weight) como '600'. */
+    font-weight: 600; 
+    /* Define a margem interna (padding) como '6px' vertical e '8px' horizontal. */
+    padding: 6px 8px; 
+    /* Define a exibição (display) como 'block'. */
+    display: block; 
+    /* Define o raio da borda (border-radius) como '6px'. */
+    border-radius: 6px; 
+/* Fecha o bloco '.app-menu a'. */
+}
+/* Define o seletor para o estado 'hover' (mouse sobre) do link <a>. */
+.app-menu a:hover { 
+    /* Define o fundo (background) como uma cor 'rgba'. */
+    background: rgba(26,91,170,0.06); 
+/* Fecha o bloco '.app-menu a:hover'. */
+}
+
+.zone-alto { 
+    fill: var(--cor-risco-alto) !important; 
+    opacity: 0.9;
+    stroke: #fff !important; /* Borda branca para destacar o vermelho */
+    stroke-width: 1px;
+}
+
+/* Se for binário, nem precisamos do médio, mas deixamos aqui por segurança */
+.zone-medio { 
+    fill: var(--cor-risco-medio) !important; 
+    opacity: 0.9; 
+}
+
+.zone-baixo { 
+    fill: var(--cor-risco-baixo) !important; 
+    opacity: 0.9; 
+}
+
+/* small tweak for mapa page */
+/* Define o seletor para <svg> dentro de '#mapa-container'. */
+#tela-mapa svg { 
+    /* Define o raio da borda (border-radius) como '8px'. */
+    border-radius: 8px; 
+    /* Define o transbordamento (overflow) como 'hidden'. */
+    overflow: hidden; 
+    /* Define a exibição (display) como 'block'. */
+    display: block; 
+/* Fecha o bloco '#mapa-container svg'. */
+}
+
+/* O <p> (descrição) */
+/* Define o seletor para <p> dentro de '#tela-input header'. */
+#tela-input header p {
+    /* Define o tamanho da fonte (font-size) como '1rem'. */
+    font-size: 1rem;
+    /* Define a cor do texto usando a variável '--cor-placeholder'. */
+    color: var(--cor-placeholder); /* Texto de instrução mais suave */
+/* Fecha o bloco '#tela-input header p'. */
+}
+
+/* Esconde a 'tela-mapa' por padrão */
+/* Define o seletor para o ID '#tela-mapa'. */
+#tela-mapa {
+    /* Define a exibição (display) como 'none' (escondido). */
+    display: none;
+/* Fecha o bloco '#tela-mapa'. */
+}
+
+/* A "caixa" principal da Tela 1 */
+/* Define o seletor para o ID '#tela-input'. */
+#tela-input {
+    /* Define o modo de exibição (display) como 'flex'. */
+    display: flex; /* "Liga" o Flexbox para alinhar os itens */
+    /* Define a direção principal (flex-direction) como 'column'. */
+    flex-direction: column; /* Organiza os itens em coluna (um em cima do outro) */
+    /* Define o alinhamento vertical (align-items) como 'center'. */
+    align-items: center; /* Centraliza horizontalmente */
+    /* Define o alinhamento do texto (text-align) como 'center'. */
+    text-align: center;
+    /* Define a largura (width) como '100%'. */
+    width: 100%;
+    /* Define a largura máxima (max-width) como '400px'. */
+    max-width: 400px; /* Limita a largura em telas grandes */
+/* Fecha o bloco '#tela-input'. */
+}
+
+/* Card que contém o formulário (estilo do exemplo) */
+/* Define o seletor para a classe '.card'. */
+.card {
+    /* Define a largura como '100%'. */
+    width: 100%;
+    /* Define a largura máxima como '360px'. */
+    max-width: 360px;
+    /* Define a cor de fundo como '#ffffff' (branco). */
+    background: #ffffff;
+    /* Define o raio da borda como '14px'. */
+    border-radius: 14px;
+    /* Define a margem interna (padding). */
+    padding: 26px 22px;
+    /* Define uma sombra (box-shadow). */
+    box-shadow: 0 6px 18px rgba(17,24,39,0.08);
+    /* Define a exibição como 'flex'. */
+    display: flex;
+    /* Define a direção flex como 'column' (vertical). */
+    flex-direction: column;
+    /* Define o alinhamento dos itens como 'stretch'. */
+    align-items: stretch;
+    /* Define o espaçamento (gap) entre itens flex como '12px'. */
+    gap: 12px;
+/* Fecha o bloco '.card'. */
+}
+
+/* Define o seletor para o ID '#logo-card'. */
+#logo-card {
+    /* Define a largura como '200px'. */
+    width: 200px;
+    /* Define a altura como 'auto'. */
+    height: auto;
+    /* Define a margem (auto nas laterais para centralizar). */
+    margin: 0 auto 6px auto;
+/* Fecha o bloco '#logo-card'. */
+}
+
+/* Define o seletor para <h1> dentro de '.card'. */
+.card h1 {
+    /* Define o tamanho da fonte como '1.1rem'. */
+    font-size: 1.1rem;
+    /* Define o alinhamento do texto como 'center'. */
+    text-align: center;
+    /* Define a cor do texto usando a variável '--cor-azul-grafite'. */
+    color: var(--cor-azul-grafite);
+    /* Define a margem inferior como '6px'. */
+    margin-bottom: 6px;
+/* Fecha o bloco '.card h1'. */
+}
+
+/* Define o seletor para a classe '.field-label'. */
+.field-label {
+    /* Define a exibição como 'block'. */
+    display: block;
+    /* Define o tamanho da fonte como '0.95rem'. */
+    font-size: 0.95rem;
+    /* Define a cor do texto usando a variável '--cor-azul-grafite'. */
+    color: var(--cor-azul-grafite);
+    /* Define a margem. */
+    margin: 8px 4px 6px 4px;
+    /* Define o alinhamento do texto como 'left'. */
+    text-align: left;
+/* Fecha o bloco '.field-label'. */
+}
+
+/* Define o seletor para a classe '.input-wrapper'. */
+.input-wrapper {
+    /* Define o posicionamento como 'relative'. */
+    position: relative;
+/* Fecha o bloco '.input-wrapper'. */
+}
+
+
+/* --- Remove as "setinhas" (spinners) do Input de Número --- */
+
+/* Para Chrome, Safari, Edge (navegadores Webkit) */
+/* Define o seletor para pseudo-elementos de input tipo 'number'. */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    /* Define a aparência (vendor prefix) como 'none'. */
+    -webkit-appearance: none; /* Remove a aparência padrão */
+    /* Define a margem como 0. */
+    margin: 0; /* Remove qualquer margem que sobre */
+/* Fecha o bloco 'input[type=number]...'. */
+}
+
+/* Define o seletor para a classe '.clear-btn'. */
+.clear-btn {
+    /* Define o posicionamento como 'absolute'. */
+    position: absolute;
+    /* Define a posição 'right' como '8px'. */
+    right: 8px;
+    /* Define a posição 'top' como '50%'. */
+    top: 50%;
+    /* Define uma transformação (transform) para centralizar verticalmente. */
+    transform: translateY(-50%);
+    /* Define o fundo como 'transparent'. */
+    background: transparent;
+    /* Remove a borda. */
+    border: 0;
+    /* Define a cor do texto usando a variável '--cor-borda'. */
+    color: var(--cor-borda);
+    /* Define o tamanho da fonte como '1rem'. */
+    font-size: 1rem;
+    /* Define a largura como '34px'. */
+    width: 34px;
+    /* Define a altura como '34px'. */
+    height: 34px;
+    /* Define a exibição como 'flex'. */
+    display: flex;
+    /* Define o alinhamento vertical como 'center'. */
+    align-items: center;
+    /* Define o alinhamento horizontal como 'center'. */
+    justify-content: center;
+    /* Define o raio da borda como '50%' (círculo). */
+    border-radius: 50%;
+    /* Define o cursor como 'pointer'. */
+    cursor: pointer;
+/* Fecha o bloco '.clear-btn'. */
+}
+
+/* Define o seletor para a classe '.helper'. */
+.helper {
+    /* Define a exibição como 'block'. */
+    display: block;
+    /* Define o tamanho da fonte como '0.8rem'. */
+    font-size: 0.8rem;
+    /* Define a cor do texto usando a variável '--cor-placeholder'. */
+    color: var(--cor-placeholder);
+    /* Define a margem. */
+    margin: 6px 2px 4px 6px;
+/* Fecha o bloco '.helper'. */
+}
+
+/* Small tweaks for layout on narrow screens */
+/* Define uma regra '@media' (media query) para telas com largura máxima de '380px'. */
+@media (max-width: 380px) {
+    /* Define o seletor para a classe '.card'. */
+    .card { 
+        /* Define a margem interna (padding) como '20px'. */
+        padding: 20px; 
+    /* Fecha o bloco '.card'. */
+    }
+    /* Define o seletor para o ID '#logo-card'. */
+    #logo-card { 
+        /* Define a largura como '120px'. */
+        width: 120px; 
+    /* Fecha o bloco '#logo-card'. */
+    }
+/* Fecha o bloco '@media'. */
+}
+
+/* Define o seletor para <h1> dentro de '#tela-input header'. */
+#tela-input header h1 {
+    /* Define o tamanho da fonte como '2.5rem'. */
+    font-size: 2.5rem; /* Tamanho do "EGUA.ia" */
+    /* Define a margem inferior como '10px'. */
+    margin-bottom: 10px;
+/* Fecha o bloco '#tela-input header h1'. */
+}
+
+/* Define o seletor para <p> dentro de '#tela-input header'. */
+#tela-input header p {
+    /* Define o tamanho da fonte como '1rem'. */
+    font-size: 1rem;
+    /* Define a cor do texto usando a variável '--cor-placeholder'. */
+    color: var(--cor-placeholder); /* Texto de instrução mais suave */
+    /* Define a margem inferior como '40px'. */
+    margin-bottom: 40px;
+/* Fecha o bloco '#tela-input header p'. */
+}
+
+/* O formulário em si */
+/* Define o seletor para o ID '#form-previsao'. */
+#form-previsao {
+    /* Define a exibição como 'flex'. */
+    display: flex;
+    /* Define a direção flex como 'column' (vertical). */
+    flex-direction: column;
+    /* Define a largura como '100%'. */
+    width: 100%;
+    /* Define o espaçamento (gap) entre itens flex como '20px'. */
+    gap: 20px; /* Espaço ENTRE os inputs e o botão */
+/* Fecha o bloco '#form-previsao'. */
+}
+
+/* --- 3. A MÁGICA: "Floating Labels" (Rótulos Flutuantes) --- */
+
+/* A "caixa" que segura o input E o label */
+/* Define o seletor para a classe '.grupo-input'. */
+.grupo-input {
+    /* Define o posicionamento como 'relative'. */
+    position: relative; /* ESSENCIAL: Permite ao 'label' flutuar sobre ele */
+/* Fecha o bloco '.grupo-input'. */
+}
+
+/* O 'label' (Chuva, Maré) */
+/* Define o seletor para <label> dentro de '.grupo-input'. */
+.grupo-input label {
+    /* Define o posicionamento como 'absolute'. */
+    position: absolute; /* "Tira" o label do fluxo normal */
+    /* Define a posição 'left' como '15px'. */
+    left: 15px; /* Posição inicial (dentro do input) */
+    /* Define a posição 'top' como '15px'. */
+    top: 15px;  /* Posição inicial (dentro do input) */
+    /* Define a cor do texto usando a variável '--cor-placeholder'. */
+    color: var(--cor-placeholder);
+    
+    /* Define a transição (transition) para 'all' (todas as propriedades). */
+    transition: all 0.2s ease-out; 
+    
+    /* Define os eventos de ponteiro (pointer-events) como 'none'. */
+    pointer-events: none; 
+/* Fecha o bloco '.grupo-input label'. */
+}
+
+/* O 'input' (a caixa de texto) */
+/* Define o seletor para <input> dentro de '.grupo-input'. */
+.grupo-input input {
+    /* Define a largura como '100%'. */
+    width: 100%;
+    /* Define a margem interna (padding) como '15px'. */
+    padding: 15px; /* Espaço interno (para o texto não grudar na borda) */
+    /* Define a cor de fundo como 'transparent'. */
+    background-color: transparent; /* Fundo transparente */
+    /* Define a borda (border) com '2px', 'solid' e a variável '--cor-fundo'. */
+    border: 2px solid var(--cor-fundo); /* Borda cinza-azulada */
+    /* Define o raio da borda como '8px'. */
+    border-radius: 8px; /* Cantos arredondados */
+    /* Define a cor do texto usando a variável '--cor-azul-grafite'. */
+    color: var(--cor-azul-grafite); /* Cor do texto que o usuário digita (Branco) */
+    /* Define o tamanho da fonte como '1rem'. */
+    font-size: 1rem;
+/* Fecha o bloco '.grupo-input input'. */
+}
+
+/* O EFEITO (A "MÁGICA") */
+/* Quando o input está focado (clicado) OU não está vazio... */
+/* Define o seletor para <input> em estado ':focus'. */
+/* Define o seletor para <input> em estado ':not(:placeholder-shown)'. */
+.grupo-input input:focus,
+.grupo-input input:not(:placeholder-shown) {
+    /* Define a cor da borda (border-color) usando a variável '--cor-laranja-alerta'. */
+    border-color: var(--cor-laranja-alerta); /* ...muda a cor da borda (Laranja) */
+    /* Remove o contorno (outline). */
+    outline: none; /* Remove a borda azul padrão do Chrome */
+/* Fecha o bloco '.grupo-input input:focus...'. */
+}
+
+/* ...move o 'label' (irmão do input) para CIMA e diminui ele */
+/* Define o seletor para <label> adjacente (+) a <input> em estado ':focus'. */
+/* Define o seletor para <label> adjacente (+) a <input> em estado ':not(:placeholder-shown)'. */
+.grupo-input input:focus + label,
+.grupo-input input:not(:placeholder-shown) + label {
+    /* Define a posição 'top' como '-10px'. */
+    top: -10px; /* Move para cima (para fora do input) */
+    /* Define a posição 'left' como '10px'. */
+    left: 10px;
+    /* Define o tamanho da fonte como '0.8rem'. */
+    font-size: 0.8rem; /* Diminui a fonte */
+    color: var(--cor-azul-rio); /* Muda a cor do label (Laranja) */
+    
+    /* Define a cor de fundo usando a variável '--cor-branco-gelo'. */
+    background-color: var(--cor-branco-gelo); 
+    /* Define a margem interna (padding) horizontal como '5px'. */
+    padding: 0 5px; /* Espaço lateral nesse "fundo" */
+/* Fecha o bloco '.grupo-input input:focus + label...'. */
+}
+
+
+/* --- 4. BOTÃO "PREVER RISCO" --- */
+
+/* Define o seletor para o ID '#btn-prever'. */
+#btn-prever {
+    /* Define a margem interna (padding) como '15px'. */
+    padding: 15px;
+    /* Define a cor de fundo usando a variável '--cor-azul-rio'. */
+    background-color: var(--cor-azul-rio); /* Fundo Laranja-Urgente */
+    /* Define a cor do texto usando a variável '--cor-texto'. */
+    color: var(--cor-texto); /* Texto Branco */
+    /* Remove a borda. */
+    border: none;
+    /* Define o raio da borda como '8px'. */
+    border-radius: 8px;
+    /* Define o tamanho da fonte como '1rem'. */
+    font-size: 1rem;
+    /* Define o peso da fonte como '700' (bold). */
+    font-weight: 700; /* Negrito (Bold) */
+    /* Define o cursor como 'pointer'. */
+    cursor: pointer; /* Mãozinha ao passar o mouse */
+    /* Define a transição (transition) para a propriedade 'background-color'. */
+    transition: background-color 0.2s;
+    /* Define a margem superior como '20px'. */
+    margin-top: 20px; /* Espaço acima do botão */
+/* Fecha o bloco '#btn-prever'. */
+}
+
+/* Define o seletor para o estado 'hover' (mouse sobre) de '#btn-prever'. */
+#btn-prever:hover {
+    /* Define a cor de fundo. */
+    background-color: var(--cor-laranja-alerta); /* Laranja um pouco mais escuro no hover */
+/* Fecha o bloco '#btn-prever:hover'. */
+}
+
+
+
+/* Define o seletor para o ID '#mapa-container'. */
+#tela-mapa{
+    /* Define a altura como '400px'. */
+    height: auto; /* Altura fixa para o mapa */
+    max-width: 960px;
+    /* Define a cor de fundo usando a variável '--cor-borda'. */
+    background-color: var(--cor-branco-gelo); /* Cor de fundo temporária */
+    /* Define o raio da borda como '8px'. */
+    border-radius: 8px;
+    /* Define a exibição como 'flex'. */
+    display: block;
+    /* Define o alinhamento horizontal como 'center'. */
+    justify-content: center;
+    /* Define o alinhamento vertical como 'center'. */
+    align-items: center;
+    padding: 40px;
+    box-shadow: 0 6px 18px rgba(17,24,39,0.08)
+}
+
+#tela-mapa svg {
+    margin: 20px 0 0 0;
+    width: 100%;
+    height: 90%;
+}
+
+#mapa-legenda {
+    /* Define a margem superior como '20px'. */
+    margin: 50px auto; /* Espaço acima da legenda */
+    padding: 20px;
+    border-radius: 8px;
+    background-color: var(--cor-texto);
+    /* Define o texto como centralizado. */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+#mapa-legenda h3 {
+    /* Define o tamanho da fonte como '1.2rem'. */
+    font-size: 1.2rem;
+    /* Define a margem inferior como '15px'. */
+    margin-bottom: 15px; /* Espaço abaixo do título */
+}
+
+/* Define o seletor para <ul> dentro de '#mapa-legenda'. */
+#mapa-legenda ul {
+    /* Remove o estilo da lista. */
+    list-style: none; /* Remove as "bolinhas" da lista */
+    /* Define a exibição como 'flex'. */
+    display: flex;
+    /* Define o alinhamento horizontal como 'center'. */
+    justify-content: center;
+    /* Define o espaçamento (gap) entre itens flex como '15px'. */
+    gap: 15px; /* Espaço entre os itens da legenda */
+/* Fecha o bloco '#mapa-legenda ul'. */
+}
+
+/* Define o seletor para <li> dentro de '#mapa-legenda'. */
+#mapa-legenda li {
+    /* Define a exibição como 'flex'. */
+    display: flex;
+    /* Define o alinhamento vertical como 'center'. */
+    align-items: center;
+    /* Define o espaçamento (gap) entre itens flex como '5px'. */
+    gap: 5px; /* Espaço entre a cor e o texto */
+/* Fecha o bloco '#mapa-legenda li'. */
+}
+
+/* As "caixinhas" de cor da legenda */
+/* Define o seletor para <span> dentro de '#mapa-legenda'. */
+#mapa-legenda span {
+    /* Define a largura como '15px'. */
+    width: 15px;
+    /* Define a altura como '15px'. */
+    height: 15px;
+    /* Define a exibição como 'block'. */
+    display: block;
+    /* Define o raio da borda como '3px'. */
+    border-radius: 3px;
+/* Fecha o bloco '#mapa-legenda span'. */
+}
+/* Define o seletor para a classe '.cor-baixo'. */
+.cor-baixo { 
+    /* Define a cor de fundo usando a variável '--cor-risco-baixo'. */
+    background-color: var(--cor-risco-baixo); 
+/* Fecha o bloco '.cor-baixo'. */
+}
+/* Define o seletor para a classe '.cor-medio'. */
+.cor-medio { 
+    /* Define a cor de fundo usando a variável '--cor-risco-medio'. */
+    background-color: var(--cor-risco-medio); 
+/* Fecha o bloco '.cor-medio'. */
+}
+/* Define o seletor para a classe '.cor-alto'. */
+.cor-alto  { 
+    /* Define a cor de fundo usando a variável '--cor-risco-alto'. */
+    background-color: var(--cor-risco-alto); 
+/* Fecha o bloco '.cor-alto'. */
+}
+
+/* Define o seletor para o ID '#btn-voltar'. */
+#btn-voltar {
+    /* Estilo similar ao de prever, mas "vazado" */
+    /* Define a margem interna (padding). */
+    padding: 10px 15px;
+    /* Define a cor de fundo como 'transparent'. */
+    background-color: transparent;
+    /* Define a cor do texto usando a variável '--cor-placeholder'. */
+    color: var(--cor-placeholder);
+    /* Define a borda com '2px', 'solid' e a variável '--cor-borda'. */
+    border: 2px solid var(--cor-borda);
+    /* Define o raio da borda como '8px'. */
+    border-radius: 8px;
+    /* Define o cursor como 'pointer'. */
+    cursor: pointer;
+    /* Define a margem superior como '30px'. */
+    margin-top: 30px;
+/* Fecha o bloco '#btn-voltar'. */
+}

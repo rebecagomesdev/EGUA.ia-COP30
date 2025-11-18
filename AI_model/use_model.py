@@ -1,12 +1,22 @@
 # use_model.py
+import os 
 import pandas as pd
 from joblib import load
+
+
+# Descobre o caminho ABSOLUTO para este arquivo (use_model.py)
+script_path = os.path.abspath(__file__)
+# Descobre o caminho para o DIRETÓRIO (pasta) onde ele está
+script_dir = os.path.dirname(script_path)
+# Cria o caminho completo para o arquivo .joblib
+MODEL_FILE_PATH = os.path.join(script_dir, 'random_forest_flood_model.joblib')
+
 
 def predict_flood_risk(rainfall, water_level, elevation):
     """
     Carrega o modelo salvo e faz uma previsão com os dados de entrada.
     """
-    filename = 'random_forest_flood_model.joblib'
+    filename = MODEL_FILE_PATH
     
     try:
         # 1. Carregar o modelo salvo
