@@ -622,8 +622,8 @@ svg path:hover {
 
 /* 2. Bairro Selecionado na Busca (Ativo) */
 svg path.ativo-busca {
-    stroke: #1E293B; /* Cor escura para contraste forte */
-    stroke-width: 3px; /* Borda bem grossa */
+    stroke: var(--cor-azul-grafite); /* Cor escura para contraste forte */
+    stroke-width: 2px; /* Borda bem grossa */
     
     /* Destaque Visual */
     filter: brightness(1.1) drop-shadow(0 0 4px rgba(0,0,0,0.3));
@@ -841,3 +841,4 @@ svg path.ativo-busca {
         margin: 0 auto; /* Centraliza o bloco todo */
     }
 }
+
