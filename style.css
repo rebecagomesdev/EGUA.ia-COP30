@@ -1,0 +1,843 @@
+/* =======================================================
+   1. IMPORTAÇÕES E VARIÁVEIS GLOBAIS
+   ======================================================= */
+
+/* Fontes */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/* Variáveis de Design (:root) */
+:root {
+    /* --- Paleta de Cores --- */
+    --cor-fundo: #003B63;                    /* O "Azul-Rio" */
+    --cor-laranja-alerta: rgb(245, 124, 0);  /* O "Laranja-Urgente" */
+    --cor-texto: #FFFFFF;                    /* Texto principal */
+    --cor-branco-gelo: #F4F7F6;              /* Fundo secundário */
+    
+    --cor-placeholder: #8D99AE;              /* Cinza-Azulado */
+    --cor-verde-sucesso: #00E676;            /* Sucesso */
+    --cor-borda: #415A77;                    /* Bordas */
+    
+    --cor-azul-rio: #1A5BAA;
+    --cor-verde-amazonia: rgb(96, 153, 136);
+    --cor-rosa-acai: #C82949;
+    --cor-azul-grafite: #1E293B;
+
+    /* --- Dimensões --- */
+    --app-bar-height: 64px;
+}
+
+/* =======================================================
+   2. RESET E ESTRUTURA BASE
+   ======================================================= */
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+
+/* Estilo do Corpo (Body) */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--cor-branco-gelo);
+    color: var(--cor-azul-grafite);
+    
+    /* Layout Centralizado na Tela */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    
+    /* Espaçamentos */
+    padding: 20px; 
+    /* Compensação para a barra fixa no topo */
+    padding-top: calc(var(--app-bar-height) + 20px); 
+}
+
+/* =======================================================
+   3. CABEÇALHO (APP BAR)
+   ======================================================= */
+
+/* Container Principal da Barra */
+.app-bar {
+    /* Posicionamento */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    /* Dimensões e Espaçamento */
+    height: var(--app-bar-height);
+    padding: 0 20px;
+
+    /* Layout (Flexbox) */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    /* Visual (Vidro Fosco e Cores) */
+    background-color: rgba(96, 153, 136, 0.75);
+    color: var(--cor-texto);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Área Esquerda (Botão Menu) */
+.app-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Área Central (Logo Centralizada Absolutamente) */
+.app-bar-center-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+/* Imagem do Logo */
+#logo-eguaia {
+    width: 120px;
+    height: auto;
+    display: block;
+}
+
+/* =======================================================
+   4. BOTÃO DE NAVEGAÇÃO (MENU)
+   ======================================================= */
+
+.app-bar-left button {
+    /* Estilos Base e Reset */
+    background: rgba(80, 147, 127, 0.75);
+    border: none;
+    border-radius: 8px;
+    
+    /* Tipografia e Cor */
+    color: var(--cor-texto);
+    font-size: 1.1rem;
+    
+    /* Espaçamento */
+    padding: 8px 10px;
+    
+    /* Interação e Sombra */
+    cursor: pointer;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.app-bar-left button:hover {
+    background: rgba(245, 124, 0, 0.8); 
+}
+/* =======================================================
+   5. MENU LATERAL (DROPDOWN)
+   ======================================================= */
+
+/* Container do Menu */
+.app-menu {
+    /* Posicionamento */
+    position: fixed;
+    top: var(--app-bar-height);
+    left: 12px;
+    z-index: 1200;
+
+    /* Dimensões */
+    width: 220px;
+    padding: 8px 10px;
+
+    /* Visual */
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(2, 6, 23, 0.12);
+
+    /* Estado Inicial (Escondido) */
+    opacity: 0;
+    pointer-events: none; /* Impede clique quando invisível */
+    transform: translateY(-10px); /* Começa um pouco mais pra cima */
+    transition: all 0.3s ease; /* Animação suave */
+}
+
+/* Estado Aberto (Adicionado via JS) */
+.app-menu.open { 
+    display: flex; 
+    flex-direction: column;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* Botão de Fechar (X) */
+.app-menu .menu-close {
+    align-self: flex-end;
+    margin-bottom: 0;
+    padding: 8px;
+
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    font-size: 20px;
+    color: #999;
+}
+
+/* Lista de Links */
+.app-menu ul { 
+    list-style: none; 
+    margin: 8px 0 0 0; 
+    padding: 0;
+}
+
+.app-menu li { 
+    margin: 6px 0; 
+}
+
+/* Links Individuais */
+.app-menu a { 
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    
+    padding: 6px 8px;
+    border-radius: 6px; 
+    
+    text-decoration: none; 
+    font-weight: 600; 
+    color: var(--cor-azul-grafite);
+}
+
+/* Hover no Link */
+.app-menu a:hover { 
+    background: rgba(26, 91, 170, 0.06); 
+}
+
+/* Ícones dentro do Menu */
+.app-menu .material-symbols-rounded {
+    font-size: 20px;
+    color: var(--cor-verde-amazonia);
+}
+
+/* =======================================================
+   6. TELA DE INPUT (CONTAINER E CARTÃO)
+   ======================================================= */
+
+/* Container Principal da Tela */
+#tela-input {
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    /* Dimensões e Alinhamento */
+    text-align: center;
+    max-width: 400px; /* Limite de largura */
+    width: 100%;      /* Garante responsividade em telas menores */
+    margin: 0 auto;   /* Centraliza se não estiver em flex parent */
+}
+
+/* O Cartão Branco */
+.card {
+    /* Layout Interno */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+
+    /* Box Model */
+    width: 100%;
+    padding: 26px 22px;
+
+    /* Visual */
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(17, 24, 39, 0.08);
+}
+
+/* Logo Interno */
+#logo-card {
+    display: block;
+    width: 250px;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto 6px auto; /* Centraliza horizontalmente */
+}
+
+/* Container do Título (A fusão das opções) */
+.card-header {
+    /* Opção 3: A Barra Lateral (Ancoragem Visual) */
+    border-left: 5px solid var(--cor-verde-amazonia);
+    padding-left: 15px; /* Espaço entre a barra e o texto */
+    
+    /* Alinhamento */
+    text-align: left; /* Texto alinhado com a barra */
+    margin-bottom: 25px; /* Empurra o formulário para baixo */
+}
+
+/* O Título Principal */
+.card-header h1 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--cor-azul-grafite);
+    line-height: 1.2;
+    margin-bottom: 4px; /* Fica coladinho no subtítulo */
+}
+
+/* Opção 2: O Subtítulo (Contexto) */
+.card-header .subtitulo {
+    font-size: 0.85rem;
+    color: #64748b; /* Cinza suave para não brigar com o título */
+    font-weight: 500;
+    margin: 0; /* Remove margens extras */
+}
+
+/* Container do Formulário */
+#form-previsao {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+
+/* =======================================================
+   7. FORMULÁRIO E INPUTS (FLOATING LABELS)
+   ======================================================= */
+
+/* Container do Input (Contexto de Posicionamento) */
+.grupo-input {
+    position: relative;
+}
+
+/* Estilo Base do Input */
+.grupo-input input {
+    /* Box Model */
+    width: 100%;
+    padding: 15px; /* Espaçamento interno confortável */
+    
+    /* Visual */
+    background-color: transparent;
+    border: 2px solid var(--cor-fundo);
+    border-radius: 8px;
+    outline: none; /* Remove contorno padrão do navegador */
+    
+    /* Tipografia */
+    color: var(--cor-azul-grafite);
+    font-size: 1rem;
+}
+
+/* Estilo Base do Label (Estado de Repouso) */
+.grupo-input label {
+    /* Posicionamento Absoluto (Centralizado Verticalmente) */
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    
+    /* Visual */
+    background-color: transparent;
+    padding: 0 5px;
+    
+    /* Tipografia */
+    color: var(--cor-placeholder);
+    
+    /* Interação e Animação */
+    pointer-events: none; /* Permite clicar através do label */
+    transition: all 0.2s ease-out;
+}
+
+/* --- ESTADOS ATIVOS (FOCUS / PREENCHIDO) --- */
+
+/* Input: Focado ou com valor preenchido */
+.grupo-input input:focus,
+.grupo-input input:not(:placeholder-shown) {
+    border-color: var(--cor-laranja-alerta);
+    box-shadow: 0 0 0 3px rgba(245, 124, 0, 0.2);
+}
+
+/* Label: Sobe para o topo da borda */
+.grupo-input input:focus + label,
+.grupo-input input:not(:placeholder-shown) + label {
+    top: 0;
+    font-size: 0.8rem;
+    color: var(--cor-azul-rio);
+    background-color: #ffffff; /* Fundo branco para cobrir a linha da borda */
+    z-index: 10;
+}
+
+/* --- UTILITÁRIOS DE INPUT --- */
+
+/* Remove setas padrão (spinners) de inputs numéricos (Webkit) */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Define o seletor para a classe '.clear-btn'. */
+/* =======================================================
+   8. BOTÕES E TEXTOS DE APOIO
+   ======================================================= */
+
+/* Botão de Limpar (X) dentro do Input */
+.clear-btn {
+    /* Posicionamento */
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%); /* Centraliza verticalmente exato */
+
+    /* Layout e Dimensões */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+
+    /* Visual */
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+
+    /* Tipografia e Cor */
+    color: var(--cor-borda);
+    font-size: 1rem;
+
+    /* Interação */
+    cursor: pointer;
+}
+
+/* Texto de Ajuda (Abaixo do Input) */
+.helper {
+    display: block;
+    margin: 2px 2px 24px 6px;
+    
+    font-size: 0.8rem;
+    color: var(--cor-placeholder);
+}
+
+/* Botão Principal de Ação */
+#btn-prever {
+    /* Espaçamento */
+    padding: 15px;
+
+    /* Visual */
+    background-color: var(--cor-azul-rio);
+    border: none;
+    border-radius: 8px;
+
+    /* Tipografia */
+    color: var(--cor-texto);
+    font-size: 1rem;
+    font-weight: 700;
+
+    /* Interação e Animação */
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#btn-prever:active {
+    transform: scale(0.98); /* Diminui para 98% do tamanho, parecendo que foi apertado */
+}
+
+/* Estado Hover do Botão Principal */
+#btn-prever:hover {
+    background-color: var(--cor-laranja-alerta);
+}
+
+
+/* =======================================================
+   9. VISUALIZAÇÃO DE DADOS (MAPA E RISCO)
+   ======================================================= */
+
+/* --- CLASSES DE RISCO (Cores) --- */
+.risco-alto { 
+    background-color: var(--cor-rosa-acai);
+    fill: var(--cor-rosa-acai) !important; 
+    opacity: 0.9;
+}
+
+.risco-medio { 
+    background-color: var(--cor-laranja-alerta);
+    fill: var(--cor-laranja-alerta) !important; 
+    opacity: 0.9; 
+}
+
+.risco-baixo { 
+    background-color: var(--cor-verde-sucesso);
+    fill: var(--cor-verde-sucesso) !important; 
+    opacity: 0.9; 
+}
+
+/* --- CONTAINER DO MAPA --- */
+
+#tela-mapa {
+    /* CORREÇÃO: Visível por padrão (Página separada) */
+    display: flex; 
+    
+    /* Layout */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    /* Dimensões */
+    width: 100%;
+    max-width: 960px;
+    height: auto;
+    margin: 0 auto; 
+    padding: 40px;
+    
+    /* Visual */
+    background-color: var(--cor-texto); /* Branco */
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(17, 24, 39, 0.08);
+}
+
+/* 1. O Título Principal "Mapa de Risco" */
+#tela-mapa h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--cor-azul-grafite);
+    margin: 30px 0 15px 0; /* Mais espaço em cima */
+    position: relative;
+    letter-spacing: -0.5px; /* Deixa as letras mais juntinhas (moderno) */
+}
+/* --- CONTROLES DE BUSCA (Select) --- */
+
+.controles-mapa {
+    width: 100%;
+    margin-bottom: 10px; 
+    text-align: center;
+}
+
+/* 2. O Label "Encontrar bairro" */
+.controles-mapa label {
+    display: block;
+    margin-bottom: 8px;
+    
+    /* A Mágica da Micro-legenda */
+    font-size: 0.75rem;
+    text-transform: uppercase; /* Caixa alta */
+    letter-spacing: 1px; /* Espaçado */
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+/* O SELETOR EM SI (Estilo Premium que você aprovou) */
+#seletor-bairro {
+    /* Reset */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    /* Box Model */
+    width: 100%;
+    max-width: 350px;
+    padding: 12px 16px;
+    padding-right: 40px;
+    
+    /* Estilo */
+    font-size: 1rem;
+    color: var(--cor-azul-grafite);
+    background-color: #ffffff;
+    border: 2px solid var(--cor-borda);
+    border-radius: 8px;
+    
+    /* Seta Customizada */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231E293B%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px;
+
+    /* Interação */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+#seletor-bairro:hover {
+    border-color: var(--cor-azul-rio);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#seletor-bairro:focus {
+    outline: none;
+    border-color: var(--cor-laranja-alerta);
+    box-shadow: 0 0 0 3px rgba(245, 124, 0, 0.2);
+}
+
+/* Estado Ativo (Selecionado no Dropdown) */
+/* =======================================================
+   10. ESTILOS DO VETOR (SVG)
+   ======================================================= */
+
+/* O Container do Desenho */
+svg {
+    /* Responsividade */
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    
+    /* CORREÇÃO DO CORTE LATERAL: */
+    /* Permite que bordas grossas ou sombras saiam da caixa sem cortar */
+    overflow: visible; 
+    
+    /* Sombra geral no mapa inteiro */
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+}
+
+/* Estilo Base dos Bairros (Paths) */
+svg path {
+    /* Bordas */
+    stroke: #ffffff; 
+    stroke-width: 1px; 
+    
+    /* Preenchimento Padrão (Sem dados) */
+    fill: #e2e8f0; 
+    
+    /* Interação */
+    cursor: pointer; 
+    transition: all 0.3s ease; /* Suaviza cor e transformações */
+}
+
+/* --- ESTADOS DE INTERAÇÃO --- */
+
+/* 1. Mouse passando por cima (Hover) */
+svg path:hover {
+    filter: brightness(1.1) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+    
+    /* Movimento */
+    transform: translateY(-2px);
+    
+    /* Destaque da Borda */
+    stroke-width: 2px;
+    stroke: #ffffff; /* Garante contraste */
+}
+
+/* 2. Bairro Selecionado na Busca (Ativo) */
+svg path.ativo-busca {
+    stroke: #1E293B; /* Cor escura para contraste forte */
+    stroke-width: 3px; /* Borda bem grossa */
+    
+    /* Destaque Visual */
+    filter: brightness(1.1) drop-shadow(0 0 4px rgba(0,0,0,0.3));
+    
+    /* Tenta trazer para frente (funciona em alguns browsers modernos) */
+    z-index: 100;
+}
+
+/* Utilitário de Animação (Caso queira usar depois) */
+@keyframes pulsar {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* =======================================================
+   10. LEGENDA E INFORMAÇÕES AUXILIARES
+   ======================================================= */
+
+/* Container da Legenda */
+#mapa-legenda {
+    /* Espaçamento e Layout */
+    margin: 50px auto;
+    padding: 20px;
+    
+    /* Visual */
+    background-color: var(--cor-texto);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    
+    /* Texto */
+    text-align: center;
+}
+
+/* Título da Legenda */
+#mapa-legenda h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+/* Lista de Itens */
+#mapa-legenda ul {
+    list-style: none; 
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Item Individual */
+#mapa-legenda li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Bolinhas Coloridas (Indicadores) */
+#mapa-legenda span {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+}
+
+/* =========================================
+   11. BOTÕES SECUNDÁRIOS (VOLTAR)
+   ========================================= */
+
+#btn-voltar {
+    width: 100%;
+    max-width: 200px;
+    margin: 30px auto 0 auto;
+    padding: 12px 20px;
+    
+    /* Visual */
+    background-color: #E2E8F0; /* Cinza claro */
+    color: var(--cor-azul-grafite);
+    border: none;
+    border-radius: 8px;
+    
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#btn-voltar:hover {
+    background-color: #CBD5E1; /* Cinza um pouco mais escuro */
+}
+
+/* Clique: Efeito de apertar */
+#btn-voltar:active {
+    transform: scale(0.96);
+}
+
+#btn-voltar:active {
+    background-color: var(--cor-borda); /* Pisca com a cor da borda */
+    color: white; /* Texto fica branco */
+    transform: scale(0.98); /* Afunda levemente */
+}
+
+/* =======================================================
+   12. TOOLTIP (ETIQUETA FLUTUANTE)
+   ======================================================= */
+
+.tooltip-mapa {
+    /* Posicionamento (Fixo na tela, JS controla Top/Left) */
+    position: fixed; 
+    z-index: 9999; /* Camada superior máxima */
+    text-align: center;
+    
+    /* Estado Inicial */
+    display: none;
+    
+    /* Visual */
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    
+    /* Box Model */
+    padding: 8px 12px;
+    border-radius: 6px;
+    transform: translate(10px, 10px); /* Offset do mouse */
+    
+    /* Tipografia */
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: normal;
+    
+    /* Comportamento (Vital: Mouse ignora o elemento) */
+    pointer-events: none; 
+}
+
+/* =========================================
+   13. PÁGINA SOBRE (TEXTOS)
+   ========================================= */
+
+/* Container específico para não afetar a index */
+#tela-sobre {
+    width: 100%;
+    max-width: 600px; /* Um pouco mais largo que o form de login para leitura */
+}
+
+/* Tipografia do texto corrido */
+.texto-sobre p {
+    font-size: 0.95rem;
+    line-height: 1.6; /* Altura da linha para leitura confortável */
+    color: var(--cor-azul-grafite);
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Títulos das seções internas */
+.texto-sobre h3 {
+    font-size: 1.1rem;
+    color: var(--cor-azul-rio);
+    margin-top: 25px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Caixa cinza da Ficha Técnica */
+.ficha-tecnica {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 30px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+}
+
+.ficha-tecnica h4 {
+    font-size: 0.9rem;
+    color: var(--cor-placeholder);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.ficha-tecnica p {
+    font-weight: 700;
+    margin-bottom: 0;
+    color: var(--cor-azul-grafite);
+}
+
+.ficha-tecnica small {
+    display: block;
+    margin-top: 5px;
+    color: #cbd5e1;
+}
+
+
+/* =======================================================
+   14. RESPONSIVIDADE (MEDIA QUERIES)
+   ======================================================= */
+
+/* Ajustes para telas muito pequenas (ex: iPhone SE, Galaxy antigos) */
+@media (max-width: 380px) {
+    .card { 
+        padding: 20px; 
+    }
+    
+    #logo-card { 
+        width: 120px; 
+    }
+
+    #mapa-legenda ul {
+        flex-direction: column; /* Um embaixo do outro */
+        align-items: flex-start; /* Alinhados à esquerda */
+        gap: 10px;
+        width: fit-content; /* A caixa ocupa só o necessário */
+        margin: 0 auto; /* Centraliza o bloco todo */
+    }
+}
