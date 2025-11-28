@@ -1,18 +1,16 @@
-import pandas as pd
+    import pandas as pd
 from joblib import load
 import os
 import sys
 
-# --- 1. CONFIGURAÇÃO DE CAMINHOS (GPS) ---
-# Pega o caminho absoluto da pasta onde este arquivo está (pasta backend)
+
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Constrói o caminho voltando uma pasta (..) e entrando em machine_learning
-model_path = os.path.join(base_dir, '..', 'machine_learning', 'random_forest_flood_model.joblib')
+
+model_path = os.path.join(base_dir, '..', 'machine_learning', 'artifacts', 'random_forest_flood_model.joblib')
 model_path = os.path.normpath(model_path) # Limpa o caminho para evitar erros de sintaxe
 
-# --- 2. CARREGAMENTO DO MODELO (GLOBAL) ---
-# Carregamos fora da função para performance (ler o disco só uma vez)
+
 modelo = None
 
 if os.path.exists(model_path):
