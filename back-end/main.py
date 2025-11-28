@@ -1,17 +1,19 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, RootModel
 from typing import Dict
 
-# --- 1. Importação Segura ---
+# --- 1. Importação Segura do Modelo ---
 try:
+    # Tenta importar a função do arquivo vizinho use_model.py
     from use_model import predict_flood_risk
 except ImportError:
+    print("❌ ERRO CRÍTICO: Não foi possível importar use_model.py")
     predict_flood_risk = None
 
-# --- 2. Lista Oficial (Bairros e Cotas) ---
+# --- 2. Dados de Belém (Bairros e Cotas) ---
 BAIRROS_BELEM = {
-    # ZONA BAIXA (Cota 4m - 6m) -> Sofre com Maré > 3.0m
+    # ZONA BAIXA (Cota 4m - 6m)
     "Jurunas": 4.0, "Condor": 4.0, "Guamá": 4.5, "Terra Firme": 4.5,
     "Cremação": 5.0, "Cidade Velha": 5.0, "Reduto": 5.0,
     "Campina": 6.0, "Comércio": 4.0, "Telégrafo": 5.0,
@@ -19,7 +21,7 @@ BAIRROS_BELEM = {
     "Pratinha": 4.0, "Miramar": 5.0, "Universitário": 5.0,
     "Maracacuera": 5.0, "Paracuri": 5.0, "Bengui": 6.0,
     
-    # ZONA MÉDIA (Cota 6m - 9m) -> Sofre com Chuva Forte + Maré
+    # ZONA MÉDIA (Cota 6m - 9m)
     "Umarizal": 6.0, "Batista Campos": 9.0, "Canudos": 8.0,
     "Fátima": 9.0, "Pedreira": 7.0, "Souza": 9.0,
     "Aurá": 8.0, "Cabanagem": 8.0, "Una": 7.0,
@@ -27,7 +29,7 @@ BAIRROS_BELEM = {
     "Campina de Icoaraci": 7.0, "Parque Guajará": 6.0,
     "Ponta Grossa": 6.0, "Maracangalha": 6.0,
     
-    # ZONA ALTA (Cota > 10m) -> Seguro (exceto Catástrofe)
+    # ZONA ALTA (Cota > 10m)
     "Nazaré": 13.0, "São Brás": 12.0, "Marco": 13.0,
     "Curió-Utinga": 10.0, "Guanabara": 10.0, "Castanheira": 11.0,
     "Marambaia": 12.0, "Mangueirão": 10.0, "Parque Verde": 14.0,
@@ -35,7 +37,7 @@ BAIRROS_BELEM = {
     "Tenoné": 11.0, "Cruzeiro": 10.0
 }
 
-# --- 3. Contratos ---
+# --- 3. Modelos de Dados (Schemas) ---
 class RiscoInput(BaseModel):
     Rainfall_mm: float = Field(..., description="Chuva (mm)")
     WaterLevel_m: float = Field(..., description="Nível Rio (m)")
@@ -49,6 +51,7 @@ class DetalheBairro(BaseModel):
 class RiscoOutput(RootModel):
     root: Dict[str, DetalheBairro]
 
+# Inicialização do App
 app = FastAPI(title="Motor de Risco (Marés de Belém)", version="Final-Tide")
 
 app.add_middleware(
@@ -59,26 +62,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- 4. O Endpoint Inteligente ---
+# --- 4. Endpoint de Previsão ---
 @app.post("/prever_risco", response_model=RiscoOutput)
 async def prever_risco(dados: RiscoInput):
     json_final = {}
     
+    # Verificação de Segurança: O código de IA foi importado?
     if predict_flood_risk is None:
-        return {}
+        raise HTTPException(status_code=500, detail="Erro interno: Módulo de IA não foi carregado corretamente.")
 
-    # 1. DETECÇÃO DE CENÁRIOS (Baseado na Hidrografia de Belém)
-    
-    # Nível 4: CATÁSTROFE (Recorde histórico ou Dilúvio)
-    # Maré > 3.8m OU Chuva > 100mm
+    # 1. DETECÇÃO DE CENÁRIOS (Hidrografia)
     is_catastrofe = dados.WaterLevel_m >= 3.8 or dados.Rainfall_mm > 100
-
-    # Nível 3: CRÍTICO (Transbordamento)
-    # Maré > 3.5m (Água invade o Ver-o-Peso e canais)
     is_critico = dados.WaterLevel_m > 3.5
-
-    # Nível 2: ALERTA (Sizígia)
-    # Maré > 3.0m (Canais cheios, qualquer chuva alaga)
     is_alerta = dados.WaterLevel_m > 3.0
 
     for bairro, elevacao_fixa in BAIRROS_BELEM.items():
@@ -90,50 +85,46 @@ async def prever_risco(dados: RiscoInput):
             elevation=elevacao_fixa
         )
         
+        # --- PROTEÇÃO CRÍTICA CONTRA CRASH ---
+        # Se a IA não conseguir prever (ex: modelo não achado), lançamos erro
+        # em vez de deixar o Python tentar converter 'None' para float.
+        if risco_ia is None:
+            raise HTTPException(
+                status_code=500, 
+                detail=f"Falha na IA. O modelo .joblib não foi encontrado no servidor."
+            )
+        
         risco_ajustado = float(risco_ia)
 
         # 3. APLICAÇÃO DE VIÉS (Regra de Negócio Topográfica)
-        
         if is_catastrofe:
-            # CENÁRIO 4: Apocalipse. 
-            # Ignora a altura. O risco da IA (que deve ser alto) prevalece puro.
-            # Em zonas baixas, forçamos para o máximo.
             if elevacao_fixa < 6.0:
                 risco_ajustado = 1.0
-            else:
-                risco_ajustado = risco_ajustado # Zonas altas seguem a IA
+            # Zonas altas mantêm o risco da IA
             
         elif is_critico:
-            # CENÁRIO 3: Maré Crítica (> 3.5m)
-            # Zonas Baixas (< 6m) SÃO SACRIFICADAS com força (+30%)
             if elevacao_fixa <= 6.0:
                 risco_ajustado += 0.30
-            # Zonas Altas ainda tem desconto, mas menor
             elif elevacao_fixa >= 10.0:
                 risco_ajustado -= (elevacao_fixa * 0.03)
 
         elif is_alerta:
-            # CENÁRIO 2: Maré Alta (> 3.0m)
-            # Zonas Baixas ganham risco leve (+15%)
             if elevacao_fixa <= 6.0:
                 risco_ajustado += 0.15
-            # Zonas Altas funcionam normal
             elif elevacao_fixa >= 10.0:
                 risco_ajustado -= (elevacao_fixa * 0.04)
                 
         else:
-            # CENÁRIO 1: Maré Normal (< 3.0m)
-            # A altura protege bem todo mundo
+            # Maré normal
             if elevacao_fixa >= 10.0:
-                risco_ajustado -= (elevacao_fixa * 0.05) # Desconto forte
+                risco_ajustado -= (elevacao_fixa * 0.05)
             elif elevacao_fixa > 6.0:
-                risco_ajustado -= (elevacao_fixa * 0.02) # Desconto leve
+                risco_ajustado -= (elevacao_fixa * 0.02)
 
-        # 4. Travas e Classificação
+        # 4. Travas e Classificação Visual
         if risco_ajustado < 0.0: risco_ajustado = 0.0
         if risco_ajustado > 1.0: risco_ajustado = 1.0
         
-        # Escala de Cores
         if risco_ajustado <= 0.45:
             label = "Baixo"   # Verde
         elif risco_ajustado <= 0.75: 
