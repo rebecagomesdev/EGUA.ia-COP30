@@ -98,8 +98,8 @@ function getNomeFormatado(id) {
  */
 window.applyRiskMap = function(risks) {
     const bairrosGroup = document.getElementById('bairros');
-    const LIMITE_RISCO_ALTO = 0.6;
-    const LIMITE_RISCO_MEDIO = 0.4;
+    const LIMITE_RISCO_ALTO = 0.75;
+    const LIMITE_RISCO_MEDIO = 0.45;
     
     // Segurança: Se o SVG não carregou, para aqui.
     if (!bairrosGroup) return;
