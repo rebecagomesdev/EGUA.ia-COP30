@@ -1,0 +1,79 @@
+<!DOCTYPE html> <html lang="pt-br"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGUA.ia - Previsão de Risco</title>
+    <link rel="stylesheet" href="./css/style.css">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+
+<body>
+    <header class="app-bar" role="banner">
+        <nav class="app-bar-left" role="navigation" aria-label="principal">
+            <button id="btn-menu" type="button" aria-label="Abrir menu">☰</button>
+        </nav>
+
+        <div class="app-bar-center-logo">
+            <img src="./assets/Frame 2.png" alt="Logo EGUA.ia" id="logo-eguaia">
+        </div>
+    </header>
+
+    <div id="app-menu" class="app-menu" aria-hidden="true">
+        <button id="app-menu-close" class="menu-close" aria-label="Fechar menu">✕</button>
+        <ul>
+            <li>
+                <a href="index.html" id="link-inicio">
+                    <span class="material-symbols-rounded">home</span>
+                    Início
+                </a>
+            </li>
+            <li>
+                <a href="about.html" id="link-sobre">
+                    <span class="material-symbols-rounded">info</span>
+                    Sobre o projeto
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <main>
+        <section id="tela-sobre" class="container-central">
+            <div class="card">
+                <div class="card-header">
+                    <h1>O Projeto EGUA.ia</h1>
+                    <p class="subtitulo">Estratégia Guiada Urbana contra Alagamentos</p>
+                </div>
+
+                <div class="texto-sobre">
+                    <p>
+                        O <strong>EGUA.ia</strong> é uma ferramenta desenvolvida para auxiliar a população de Belém do Pará a visualizar e prever riscos de alagamentos urbanos.
+                    </p>
+                    
+                    <h3>🧪 A Ciência</h3>
+                    <p>
+                        Utilizando dados pluviométricos e níveis de maré, nosso algoritmo calcula a probabilidade de enchente em bairros específicos, cruzando informações topográficas e de drenagem.
+                    </p>
+
+                    <h3>🎯 O Objetivo</h3>
+                    <p>
+                        Fornecer informação acessível e rápida para tomada de decisão em dias de chuvas intensas, típicas da nossa região amazônica.
+                    </p>
+
+                    <div class="ficha-tecnica">
+                        <h4>Desenvolvido por:</h4>
+                        <p>Grupo 25</p>
+                        <small>Versão 1.0.0 (Beta)</small>
+                    </div>
+                </div>
+
+                <button id="btn-voltar" onclick="window.location.href='index.html'">
+                    Voltar ao Início
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
