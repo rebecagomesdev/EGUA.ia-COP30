@@ -1,105 +1,190 @@
-## 📖 README do Projeto de Previsão de Enchente (Random Forest)
 
-Este projeto demonstra como treinar um modelo de Machine Learning (**Random Forest Classifier**) usando dados climáticos e geográficos do Kaggle e, em seguida, como salvar e utilizar esse modelo para fazer previsões de risco de enchente.
+# 📖 README do Motor de Previsão de Risco de Enchentes (Random Forest + FastAPI)
+
+Este projeto demonstra como treinar um modelo de Machine Learning (**Random Forest Regressor**) usando dados climáticos do Kaggle e, em seguida, como utilizá-lo dentro de uma API em FastAPI para prever o risco de enchente nos bairros de Belém.
 
 -----
 
-## 1\. ⚙️ Pré-requisitos e Instalação
+## 1. ⚙️ Pré-requisitos e Instalação
 
-Para executar este projeto, você precisará ter o **Python** instalado e as seguintes bibliotecas. É altamente recomendável usar um **ambiente virtual**.
-
-### Instalação das Bibliotecas
-
-Execute o comando abaixo no seu terminal para instalar todas as dependências necessárias:
+Para executar este projeto, é necessário ter **Python 3.10+** e instalar as seguintes dependências:
 
 ```bash
-pip install pandas scikit-learn joblib numpy kagglehub
+pip install pandas scikit-learn joblib numpy kagglehub fastapi uvicorn
 ```
 
 -----
 
-## 2\. 📂 Estrutura do Projeto
+## 2. 📂 Estrutura do Projeto
 
-O projeto é dividido em dois arquivos principais para separar as responsabilidades de treinamento e uso do modelo.
+O projeto é organizado em três camadas principais:
 
-  * **`train_model.py`**: Baixa o dataset do Kaggle, realiza o pré-processamento, treina o modelo **Random Forest Classifier** e salva o modelo treinado.
-  * **`use_model.py`**: Carrega o modelo salvo e o utiliza para prever o risco de enchente com novos dados de entrada.
-  * **`random_forest_flood_classifier_model.joblib`**: O arquivo binário do modelo treinado (será gerado após a execução de `train_model.py`).
+- **machine_learning/train_model.py** – Treina o modelo e salva o artefato.  
+- **use_model.py** – Carrega o modelo salvo e faz previsões individuais.  
+- **main.py** – API FastAPI que usa a IA + regras de negócio + elevação dos bairros.  
+- **machine_learning/artifacts/random_forest_flood_model.joblib** – Modelo treinado.
 
------
+Arquivos do front-end:
 
-## 3\. Como Usar
-
-Siga estes passos na ordem para treinar e, em seguida, usar o seu modelo.
-
-### Passo 1: Treinar e Salvar o Modelo
-
-O script `train_model.py` é responsável por todo o processo de Machine Learning, desde a aquisição dos dados até o salvamento do modelo.
-
-Mas, já existe o script do modelo treinado, então você pode pular para a etapa de execução do modelo. Pode seguir do passo 2.
-
-#### Execução:
-
-1.  Abra o seu terminal no diretório do projeto.
-
-2.  Execute o arquivo de treinamento:
-
-    ```bash
-    python train_model.py
-    ```
-
-#### O que Acontece:
-
-  * O script baixa automaticamente o dataset do Kaggle (usando `kagglehub`).
-  * Ele carrega o arquivo CSV, identifica as colunas de entrada e a coluna alvo (`FloodOccurrence`).
-  * Treina o **Random Forest Classifier**.
-  * Salva o modelo no arquivo **`random_forest_flood_classifier_model.joblib`**.
+- **index.html**, **about.html**, **mapa.html**  
+- **script.js**, **style.css**  
+- **assets/** (logo EGUA.ia, mapa SVG, etc.)
 
 -----
 
-### Passo 2: Usar o Modelo Salvo para Previsão
+## 3. Como Usar
 
-O script `use_model.py` simula o uso do modelo em um ambiente de produção, carregando-o e fazendo uma previsão com dados de entrada.
+### Passo 1 – Treinar o modelo
 
-#### Execução:
+```bash
+python machine_learning/train_model.py
+```
 
-1.  Certifique-se de que o `train_model.py` foi executado com sucesso e que o arquivo `.joblib` existe.
+Após o treinamento, o artefato será salvo em:
 
-2.  Execute o arquivo de uso:
+```
+machine_learning/artifacts/random_forest_flood_model.joblib
+```
 
-    ```bash
-    python use_model.py
-    ```
+### Passo 2 – Testar o modelo
 
-#### O que Acontece:
+```bash
+python use_model.py
+```
 
-  * O script **carrega** o modelo `random_forest_flood_classifier_model.joblib`.
-  * Ele define um conjunto de dados de teste (simulando uma leitura de sensores).
-  * Faz uma previsão, que será **0** (Sem Enchente) ou **1** (Risco de Enchente), com base nas colunas:
-      * `Rainfall_mm` (Chuva em mm)
-      * `WaterLevel_m` (Nível da Água em metros)
-      * `Elevation_m` (Elevação da Cidade em metros)
+### Passo 3 – Iniciar a API
+
+```bash
+uvicorn main:app --reload
+```
+
+A API estará disponível em:
+
+```
+POST /prever_risco
+```
+
+Exemplo de requisição:
+
+```json
+{
+  "Rainfall_mm": 80.0,
+  "WaterLevel_m": 3.6
+}
+```
 
 -----
 
-## 4\. Personalização do `use_model.py`
+## 4. Personalização do use_model.py
 
-Você pode facilmente testar o modelo com seus próprios dados de entrada editando a função `predict_flood_risk` no `use_model.py`.
-
-### Exemplo de Alteração:
-
-Para testar um cenário de baixa chuva e nível de água:
+Para testar valores manualmente:
 
 ```python
-if __name__ == '__main__':
-    # Novos dados para previsão: Baixa chuva, nível baixo, elevação alta
-    chuva_baixa = 10.5
-    nivel_baixo = 0.5
-    elevacao_alta = 45.0
-    umidade_normal = 50.0 # Adicione a umidade do solo
-
-    # A função agora requer 4 parâmetros
-    predict_flood_risk(chuva_baixa, nivel_baixo, elevacao_alta)
+resultado = predict_flood_risk(90.0, 3.8, 12.0)
 ```
 
-**Lembre-se de manter a ordem dos parâmetros:** `Rainfall_mm`, `WaterLevel_m`, `Elevation_m`.
+A ordem correta é:
+
+1. Rainfall_mm  
+2. WaterLevel_m  
+3. Elevation_m  
+
+-----
+
+## 5. 🖥️ Integração com o Front-end EGUA.ia
+
+O EGUA.ia possui um front-end completo em HTML, CSS e JavaScript que consome diretamente o endpoint da API FastAPI para exibir:
+
+- O mapa oficial dos bairros de Belém (SVG)  
+- As cores de risco (Baixo / Médio / Alto)  
+- Tooltip com nome do bairro  
+- Busca por bairro  
+- Interface de entrada para chuva e maré
+
+### Comunicação com o backend
+
+O front-end envia ao backend:
+
+```javascript
+fetch("https://egua-ia-cop30.onrender.com/prever_risco", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        Rainfall_mm: parseFloat(document.getElementById("input-chuva").value),
+        WaterLevel_m: parseFloat(document.getElementById("input-mare").value)
+    })
+})
+```
+
+O backend responde um JSON no formato:
+
+```json
+{
+  "Jurunas": {
+    "risco": 0.87,
+    "elevacao_media": 4.0,
+    "classificacao": "Alto"
+  },
+  "Nazaré": {
+    "risco": 0.12,
+    "elevacao_media": 13.0,
+    "classificacao": "Baixo"
+  }
+}
+```
+
+### Como o mapa é pintado
+
+No arquivo **script.js**, a função abaixo colore automaticamente cada bairro:
+
+```javascript
+window.applyRiskMap = function(risks) {
+    const LIMITE_RISCO_ALTO = 0.75;
+    const LIMITE_RISCO_MEDIO = 0.45;
+
+    Object.entries(risks || {}).forEach(([bairroNome, data]) => {
+        const idSVG = normalizeString(bairroNome);
+        const el = document.getElementById(idSVG);
+
+        if (el) {
+            el.classList.remove("risco-alto","risco-medio","risco-baixo");
+
+            if (data.risco > LIMITE_RISCO_ALTO) el.classList.add("risco-alto");
+            else if (data.risco > LIMITE_RISCO_MEDIO) el.classList.add("risco-medio");
+            else el.classList.add("risco-baixo");
+        }
+    });
+};
+```
+
+### Como rodar o front localmente
+
+Basta abrir os arquivos:
+
+- `index.html` – Tela inicial de inputs  
+- `mapa.html` – Tela com o mapa colorido  
+- `about.html` – Página institucional do projeto
+
+Se quiser rodar com servidor local:
+
+```bash
+python -m http.server 8080
+```
+
+E acessar:
+
+```
+http://localhost:8080/index.html
+```
+
+-----
+
+## 6. 🎯 Resumo Final
+
+- **Back-end (FastAPI)** → Previsão de risco + regras de negócio  
+- **IA (Random Forest)** → Probabilidade base por bairro  
+- **Front-end (HTML/CSS/JS)** → Interface visual + mapa interativo de Belém  
+- **Objetivo** → Fornecer previsões acessíveis e visuais para a população de Belém
+
+O EGUA.ia integra ciência, IA, design e utilidade pública em uma solução completa. 🌧️🌎
+
