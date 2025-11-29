@@ -72,7 +72,7 @@ async def prever_risco(dados: RiscoInput):
         raise HTTPException(status_code=500, detail="Erro interno: Módulo de IA não foi carregado corretamente.")
 
     # 1. DETECÇÃO DE CENÁRIOS (Hidrografia)
-    is_catastrofe = dados.WaterLevel_m >= 3.8 or dados.Rainfall_mm > 100
+    is_catastrofe = dados.WaterLevel_m >= 3.8 and dados.Rainfall_mm > 120
     is_critico = dados.WaterLevel_m > 3.5
     is_alerta = dados.WaterLevel_m > 3.0
 
